@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ORION-7 — Terminal</title>
+  <link rel="stylesheet" href="orion.css">
+  <script src="orion.js" defer></script>
+</head>
+<body>
+  <div id="win">
+    <div id="bar">
+      <div class="title-group">
+        <span class="terminal-icon" aria-hidden="true">›_</span>
+        <span>orion-7 :: intern@assessment</span>
+      </div>
+
+      <span id="cwdv">/</span>
+
+      <div class="window-controls" aria-hidden="true">
+        <span class="window-control minimize"></span>
+        <span class="window-control maximize"></span>
+        <span class="window-control close"></span>
+      </div>
+    </div>
+
+    <div id="screen">
+      <div id="out"></div>
+      <div id="row">
+        <span id="pl"></span>
+        <input
+          id="in"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Terminal input"
+        >
+      </div>
+    </div>
+
+    <div id="ed">
+      <header>
+        <span id="edname"></span>
+        <span class="editor-actions">
+          <button id="edsave">Save</button>
+          <button id="edquit">Close</button>
+          <span class="dim editor-shortcuts">Ctrl+S save · Esc close</span>
+        </span>
+      </header>
+      <textarea id="edta" spellcheck="false" aria-label="Editor"></textarea>
+    </div>
+  </div>
+</body>
+</html>
