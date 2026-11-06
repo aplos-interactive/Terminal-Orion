@@ -1,4 +1,3 @@
-<script>
 "use strict";
 const $=id=>document.getElementById(id);
 const out=$("out"),inp=$("in"),pl=$("pl"),screen=$("screen");
@@ -378,4 +377,3 @@ print("ORION-7 secure file server  ::  authorized assessment","pr");
 print("Halyard Security, Monday 9:02 AM.\nYour first real job: a penetration test for Orion Logistics, a freight company.\nThey signed the paperwork, so everything here is allowed. Stay inside ORION-7.\n\nThis is a made-up machine: nothing here is real. Tab completes names, Up/Down recalls commands, 'help' lists commands.","dim");print("");if(P.done>=M.length)print("Case closed. Type 'reset' to replay.","ok");else{if(P.done)print("Welcome back.","ok");showMission()}
 print("");
 shellPrompt();inp.focus();
-</script>
