@@ -2,38 +2,21 @@
   box-sizing: border-box;
   color-scheme: dark;
 
-  --bg: #050608;
-  --panel: #0c0c0c;
-  --titlebar: #202020;
-  --fg: #cccccc;
-  --dim: #858585;
-  --prompt: #4ec9b0;
-  --dir: #75beff;
-  --err: #f48771;
-  --ok: #89d185;
-  --edge: #333333;
-  --hover: #3a3a3a;
+  --desktop: #64799e;
+  --frame-light: #d7def4;
+  --frame-mid: #9aa9d0;
+  --frame-dark: #4a5a85;
+  --screen: #050505;
+  --text: #d0d0d0;
+  --muted: #999;
+  --prompt: #eee;
+  --dir: #8da7ff;
+  --err: #ff7777;
+  --ok: #8cdf91;
   --selection: #264f78;
 
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-
-:root[data-theme="light"] {
-  color-scheme: light;
-
-  --bg: #e8edf3;
-  --panel: #f6f8fb;
-  --titlebar: #e5e5e5;
-  --fg: #1b2230;
-  --dim: #66728a;
-  --prompt: #007f70;
-  --dir: #00708a;
-  --err: #b3261e;
-  --ok: #1b7f3b;
-  --edge: #c5cedb;
-  --hover: #d7dce3;
-  --selection: #add6ff;
 }
 
 *,
@@ -42,24 +25,28 @@
   box-sizing: inherit;
 }
 
-html {
+html,
+body {
+  width: 100%;
   height: 100%;
-  scroll-padding-top: env(safe-area-inset-top, 0px);
+  margin: 0;
 }
 
 body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font: 14px/1.5 Consolas, "Cascadia Mono", "SFMono-Regular", Menlo, monospace;
+  padding: 18px;
+  overflow: hidden;
+  background: var(--desktop);
+  color: var(--text);
+  font: 14px/1.3 "DejaVu Sans Mono", "Liberation Mono", "Courier New", monospace;
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: none;
 }
 
 ::selection {
-  color: var(--fg);
+  color: #fff;
   background: var(--selection);
 }
 
@@ -67,68 +54,82 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: min(1000px, 100%);
-  height: min(720px, 100%);
+  width: min(1100px, 100%);
+  height: min(740px, 100%);
+  min-height: 0;
   overflow: hidden;
-  border: 1px solid var(--edge);
-  border-radius: 8px;
-  background: var(--panel);
-  box-shadow: 0 18px 60px rgb(0 0 0 / 45%);
+  border: 3px ridge var(--frame-mid);
+  background: var(--screen);
+  box-shadow:
+    0 14px 36px rgb(0 0 0 / 45%),
+    inset 0 0 0 1px var(--frame-light);
 }
 
+/* Classic beveled X-style title bar */
 #bar {
+  position: relative;
   display: flex;
-  flex: 0 0 38px;
+  flex: 0 0 27px;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 0 12px;
-  border-bottom: 1px solid var(--edge);
-  background: var(--titlebar);
-  color: var(--fg);
-  font: 12px/1.2 "Segoe UI", Arial, sans-serif;
+  gap: 8px;
+  padding: 0 5px;
+  border: 1px solid var(--frame-light);
+  background: linear-gradient(
+    to bottom,
+    #bac7e8 0%,
+    #9baad2 48%,
+    #8293c1 100%
+  );
+  color: #101629;
+  font: 700 12px/1 "DejaVu Sans Mono", "Liberation Mono", monospace;
   user-select: none;
 }
 
+/* Center the existing terminal title without requiring HTML changes. */
 .title-group {
+  position: absolute;
+  left: 50%;
   display: flex;
   align-items: center;
-  gap: 9px;
+  justify-content: center;
   min-width: 0;
+  transform: translateX(-50%);
 }
 
-.terminal-icon {
-  color: var(--prompt);
-  font: 700 15px/1 Consolas, monospace;
-}
-
-#cwdv {
+.title-group > span:last-child {
   overflow: hidden;
-  color: var(--dim);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* The original title icon is hidden for a plain classic title bar. */
+.terminal-icon {
+  display: none;
+}
+
+/* Hide the browser-terminal status text; the prompt shows the current path. */
+#cwdv {
+  display: none;
 }
 
 .window-controls {
   display: flex;
   align-self: stretch;
-  margin: 0 -12px 0 0;
+  gap: 3px;
+  margin-left: auto;
 }
 
 .window-control {
   position: relative;
   display: block;
-  width: 44px;
+  width: 18px;
+  border: 1px ridge #53648f;
+  background: linear-gradient(#d5def4, #91a1cb);
 }
 
-.window-control:hover {
-  background: var(--hover);
-}
-
-.minimize::after,
-.maximize::after,
-.close::before,
-.close::after {
+.window-control::before,
+.window-control::after {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -136,80 +137,83 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.minimize::after {
-  width: 10px;
+.window-control.minimize::before {
+  width: 8px;
   height: 1px;
-  background: var(--fg);
+  background: #17213a;
 }
 
-.maximize::after {
+.window-control.maximize::before {
+  width: 8px;
+  height: 8px;
+  border: 1px solid #17213a;
+}
+
+.window-control.close::before,
+.window-control.close::after {
   width: 9px;
-  height: 9px;
-  border: 1px solid var(--fg);
-}
-
-.close:hover {
-  background: #c42b1c;
-}
-
-.close::before,
-.close::after {
-  width: 12px;
   height: 1px;
-  background: var(--fg);
+  background: #17213a;
 }
 
-.close::before {
+.window-control.close::before {
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.close::after {
+.window-control.close::after {
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 #screen {
   flex: 1;
-  overflow-y: auto;
-  padding: 14px 18px;
+  min-height: 0;
+  overflow: auto;
+  padding: 7px 7px 10px;
+  background: var(--screen);
+  color: var(--text);
+  font: inherit;
   cursor: text;
   overflow-wrap: anywhere;
-  scrollbar-color: #555 var(--panel);
+  scrollbar-color: #777 #080808;
   scrollbar-width: thin;
 }
 
 #screen::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
 }
 
 #screen::-webkit-scrollbar-track {
-  background: var(--panel);
+  background: #080808;
 }
 
 #screen::-webkit-scrollbar-thumb {
-  border: 2px solid var(--panel);
-  border-radius: 5px;
-  background: #555;
+  border: 2px solid #080808;
+  background: #777;
 }
 
 .ln {
-  min-height: 1.5em;
+  min-height: 1.3em;
   white-space: pre-wrap;
 }
 
 .err { color: var(--err); }
 .dir { color: var(--dir); }
-.dim { color: var(--dim); }
+.dim { color: var(--muted); }
 .ok { color: var(--ok); }
 .pr { color: var(--prompt); }
 
 #row {
   display: flex;
+  align-items: baseline;
+  min-height: 1.3em;
   gap: 0;
 }
 
 #pl {
+  flex: 0 0 auto;
   color: var(--prompt);
   white-space: pre;
+  font: inherit;
 }
 
 #in {
@@ -218,18 +222,19 @@ body {
   padding: 0;
   border: 0;
   outline: 0;
-  background: none;
-  color: var(--fg);
+  background: transparent;
+  color: var(--text);
   font: inherit;
-  caret-color: var(--prompt);
+  caret-color: #fff;
 }
 
 #ed {
   position: absolute;
+  z-index: 2;
   inset: 0;
   display: none;
   flex-direction: column;
-  background: var(--panel);
+  background: var(--screen);
 }
 
 #ed.on {
@@ -238,88 +243,76 @@ body {
 
 #ed header {
   display: flex;
+  flex: 0 0 27px;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 7px 12px;
-  border-bottom: 1px solid var(--edge);
-  background: var(--titlebar);
-  color: var(--dim);
-  font: 12px/1.4 "Segoe UI", Arial, sans-serif;
+  padding: 0 7px;
+  border: 1px solid var(--frame-light);
+  background: linear-gradient(to bottom, #bac7e8, #8293c1);
+  color: #101629;
+  font: 12px/1 "DejaVu Sans Mono", "Liberation Mono", monospace;
 }
 
 .editor-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
 }
 
 #ed textarea {
   flex: 1;
-  padding: 14px 18px;
+  min-height: 0;
+  padding: 8px;
   border: 0;
   outline: 0;
   resize: none;
-  background: var(--panel);
-  color: var(--fg);
+  background: var(--screen);
+  color: var(--text);
   font: inherit;
   tab-size: 2;
 }
 
 #ed button {
-  padding: 3px 10px;
-  border: 1px solid var(--edge);
-  border-radius: 3px;
-  background: #2d2d2d;
-  color: var(--fg);
-  font: 12px "Segoe UI", Arial, sans-serif;
+  padding: 2px 7px;
+  border: 1px outset #ddd;
+  border-radius: 0;
+  background: #c4cce1;
+  color: #111;
+  font: 12px "DejaVu Sans Mono", "Liberation Mono", monospace;
   cursor: pointer;
-}
-
-:root[data-theme="light"] #ed button {
-  background: var(--panel);
-}
-
-#ed button:hover {
-  background: var(--hover);
 }
 
 #ed button:focus-visible,
 #in:focus-visible {
-  outline: 2px solid var(--prompt);
+  outline: 1px dotted #fff;
   outline-offset: 2px;
 }
 
 @media (max-width: 700px) {
   body {
-    display: block;
+    padding: 0;
   }
 
   #win {
     width: 100%;
     height: 100%;
-    border: 0;
-    border-radius: 0;
+    border-width: 2px;
     box-shadow: none;
   }
 
-  #bar {
-    gap: 8px;
-    padding-left: 10px;
+  #screen {
+    padding: 6px 5px;
+    font-size: 12px;
   }
 
-  .window-controls {
-    margin-right: -10px;
+  #ed textarea {
+    padding: 6px;
+    font-size: 12px;
   }
 
   .window-control {
-    width: 36px;
-  }
-
-  #screen,
-  #ed textarea {
-    padding-right: 12px;
-    padding-left: 12px;
+    width: 16px;
   }
 
   .editor-shortcuts {
