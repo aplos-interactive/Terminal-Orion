@@ -20,13 +20,25 @@
         <span class="win-btn close"></span>
       </span>
     </header>
-    <nav id="menubar" aria-label="Terminal menus"><span>File</span><span>Edit</span><span>Tabs</span><span>Help</span></nav>
+    <nav id="menubar" aria-label="Terminal menus">
+      <span>File</span><span>Edit</span><span>Tabs</span><span>Help</span>
+    </nav>
     <section id="screen" aria-label="Terminal output">
       <div id="out" aria-live="polite"></div>
-      <div id="row"><span id="pl"></span><input id="in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input"></div>
+      <div id="row">
+        <span id="pl"></span>
+        <input id="in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">
+      </div>
     </section>
     <section id="ed" aria-label="Text editor">
-      <header><span id="edname"></span><span class="editor-actions"><button id="edsave">Save</button><button id="edquit">Close</button><span class="dim editor-shortcuts">Ctrl+S save · Esc close</span></span></header>
+      <header>
+        <span id="edname"></span>
+        <span class="editor-actions">
+          <button id="edsave">Save</button>
+          <button id="edquit">Close</button>
+          <span class="dim editor-shortcuts">Ctrl+S save · Esc close</span>
+        </span>
+      </header>
       <textarea id="edta" spellcheck="false" aria-label="Editor"></textarea>
     </section>
   </main>
